@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#080d1a">
+<title>QYNTRIX Mini App</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#080d1a;color:white;font-family:Arial,sans-serif;padding-bottom:75px}
+header{padding:22px;background:#101a2d;border-bottom:1px solid #1d3455}
+.logo{color:#38a5ff;font-size:27px;font-weight:bold;letter-spacing:2px}
+main{padding:18px;max-width:500px;margin:auto}
+.card{background:linear-gradient(135deg,#15365d,#10182c);border:1px solid #285185;border-radius:18px;padding:22px;margin:15px 0}
+.label{color:#adc5e6;font-size:14px}
+.balance{font-size:32px;font-weight:bold;margin:12px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:#111e33;border:1px solid #203b60;padding:17px 12px;border-radius:15px;text-align:center}
+button{border:0;border-radius:10px;background:#168cff;color:white;padding:12px;font-weight:bold;width:100%;margin-top:8px}
+h3{font-size:16px}
+p{color:#a8bddc;font-size:13px;line-height:1.5}
+.page{display:none}
+.page.active{display:block}
+input,select{width:100%;padding:13px;margin:8px 0 15px;background:#101a2d;color:white;border:1px solid #315077;border-radius:9px}
+nav{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-around;background:#101a2d;border-top:1px solid #203b60;padding:8px 2px}
+nav button{background:transparent;color:#a9bddb;font-size:12px;margin:0;padding:8px 2px}
+nav button.active{color:#38a5ff}
+.note{background:#111e33;padding:13px;border-radius:12px;color:#a8bddc;font-size:13px;line-height:1.5}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">QYNTRIX 💎</div>
+ <p>YOUR REWARD HUB</p>
+</header>
+<main>
+<section id="home" class="page active">
+ <div class="card">
+  <div class="label">DEMO BALANCE</div>
+  <div class="balance"><span id="balance">0</span> QNT</div>
+  <p>Demo points only — no real funds.</p>
+ </div>
+ <div class="grid">
+  <div class="tile">🎯<h3>Earn Tasks</h3><p>Try a demo task</p><button onclick="go('earn')">Open</button></div>
+  <div class="tile">👥<h3>Referral</h3><p>Invite friends</p><button onclick="go('referral')">Open</button></div>
+  <div class="tile">🎁<h3>Daily Bonus</h3><p>Demo bonus</p><button onclick="bonus()">Claim</button></div>
+  <div class="tile">💳<h3>Withdraw</h3><p>Crypto request demo</p><button onclick="go('withdraw')">Open</button></div>
+ </div>
+ <div class="card"><h3>📊 Activity</h3><p id="activity">Welcome to QYNTRIX!</p></div>
+</section>
+<section id="earn" class="page">
+ <h2>🎯 Earn Tasks</h2>
+ <div class="card"><h3>Welcome demo task</h3><p>Test the demo interface.</p><button onclick="task()">Complete (+10 QNT)</button></div>
+ <div class="note">Demo points are not money. Real tasks need a backend and verification.</div>
+</section>
+<section id="referral" class="page">
+ <h2>👥 Referral</h2>
+ <div class="card"><p>Referral tracking will be connected to Telegram later.</p><button onclick="alert('Telegram referral is not connected yet.')">Invite Friends</button></div>
+</section>
+<section id="withdraw" class="page">
+ <h2>💳 Crypto Withdrawal</h2>
+ <div class="note">Demo only. This form does not send cryptocurrency or submit a real request.</div>
+ <form onsubmit="withdrawDemo(event)">
+ <p>Network</p>
+ <select id="network"><option>USDT TRC20</option><option>USDT BEP20</option><option>TON</option></select>
+ <p>Wallet address</p><input id="wallet" required placeholder="Wallet address">
+ <p>Amount (QNT)</p><input id="amount" type="number" min="1" required placeholder="Amount">
+ <button type="submit">Preview Request</button>
+ </form>
+</section>
+<section id="profile" class="page">
+ <h2>👤 Profile</h2><div class="card"><p>Telegram login is not connected yet.</p><p>Demo balance: <b id="profileBalance">0 QNT</b></p></div>
+</section>
+</main>
+<nav>
+ <button class="active" onclick="go('home',this)">🏠<br>Home</button>
+ <button onclick="go('earn',this)">🎯<br>Earn</button>
+ <button onclick="go('referral',this)">👥<br>Invite</button>
+ <button onclick="go('withdraw',this)">💳<br>Withdraw</button>
+ <button onclick="go('profile',this)">👤<br>Profile</button>
+</nav>
+<script>
+let balance=0,taskDone=false,bonusDone=false;
+function update(){document.getElementById('balance').textContent=balance;document.getElementById('profileBalance').textContent=balance+' QNT'}
+function go(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('nav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active')}
+function task(){if(taskDone){alert('Already completed.');return}taskDone=true;balance+=10;update();document.getElementById('activity').textContent='Demo task: +10 QNT';alert('10 demo points added. No real funds credited.')}
+function bonus(){if(bonusDone){alert('Demo bonus already claimed.');return}bonusDone=true;balance+=5;update();document.getElementById('activity').textContent='Demo bonus: +5 QNT';alert('5 demo points added. No real funds credited.')}
+function withdrawDemo(e){e.preventDefault();alert('Demo only. No withdrawal has been sent.')}
+</script>
+</body>
+</html>
